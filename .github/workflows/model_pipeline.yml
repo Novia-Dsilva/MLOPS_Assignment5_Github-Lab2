@@ -102,7 +102,7 @@
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 #     - name: Upload Model Artifacts
-#       uses: actions/upload-artifact@v3
+#       uses: actions/upload-artifact@v4
 #       with:
 #         name: model-${{ env.TIMESTAMP }}
 #         path: |
@@ -236,7 +236,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Model Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: model-${{ env.TIMESTAMP }}
         path: |
