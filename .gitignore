@@ -1,0 +1,34 @@
+# Virtual Environment
+venv/
+env/
+*.venv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# MLflow (keep the experiments but ignore local tracking)
+mlruns/.trash
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Don't ignore these - we want them in GitHub
+!src/models/
+!src/metrics/
+!src/plots/
+!mlruns/

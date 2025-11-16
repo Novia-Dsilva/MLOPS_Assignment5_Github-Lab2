@@ -1,0 +1,10 @@
+artifact_location: /Users/noviadsilva/Desktop/MLOps/Labs/Github_Labs/Lab2/src/mlruns/477043159239055207/models/m-b3976de3f1d54e8f8619760670a8ccc8/artifacts
+creation_timestamp: 1763257722420
+experiment_id: '477043159239055207'
+last_updated_timestamp: 1763257724059
+model_id: m-b3976de3f1d54e8f8619760670a8ccc8
+model_type: null
+name: model
+source_run_id: a1247b58bd74465b8019a9f751afd217
+status: 2
+status_message: null

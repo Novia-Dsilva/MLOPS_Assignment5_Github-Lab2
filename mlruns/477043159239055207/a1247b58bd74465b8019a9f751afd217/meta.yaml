@@ -1,0 +1,14 @@
+artifact_uri: /Users/noviadsilva/Desktop/MLOps/Labs/Github_Labs/Lab2/src/mlruns/477043159239055207/a1247b58bd74465b8019a9f751afd217/artifacts
+end_time: 1763257724061
+entry_point_name: ''
+experiment_id: '477043159239055207'
+lifecycle_stage: active
+run_id: a1247b58bd74465b8019a9f751afd217
+run_name: Housing_gradient_boosting
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763257719420
+status: 3
+tags: []
+user_id: noviadsilva

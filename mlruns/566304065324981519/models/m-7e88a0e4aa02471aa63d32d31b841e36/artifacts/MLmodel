@@ -1,0 +1,22 @@
+artifact_path: /Users/noviadsilva/Desktop/MLOps/Labs/Github_Labs/Lab2/src/mlruns/566304065324981519/models/m-7e88a0e4aa02471aa63d32d31b841e36/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.4
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.6.0
+model_id: m-7e88a0e4aa02471aa63d32d31b841e36
+model_size_bytes: 138990
+model_uuid: m-7e88a0e4aa02471aa63d32d31b841e36
+prompts: null
+run_id: fd15ea57788c42c8b97c4920f1dc8808
+utc_time_created: '2025-11-16 01:55:12.960111'
