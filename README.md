@@ -593,8 +593,8 @@ mlflow ui --backend-store-uri ./mlruns --port 5000
 ![FastAPI Docs](screenshots/f1.png)
 
 ### Streamlit Dashboard
-![Streamlit Dashboard](screenshots/s1.png)
 ![Streamlit Dashboard](screenshots/s2.png)
+![Streamlit Dashboard](screenshots/s1.png)
 
 ### Pytest
 ![Pytest](screenshots/p1.png)
