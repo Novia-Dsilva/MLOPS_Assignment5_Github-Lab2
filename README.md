@@ -1,6 +1,8 @@
 # Using GitHub Actions for Model Training and Versioning for California Housing Price Prediction
 
 [![Housing Price Model Pipeline](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/model_pipeline.yml/badge.svg)](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/model_pipeline.yml)
+[![pytest](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/pytest.yml/badge.svg)](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/pytest.yml)
+[![unittest](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/unittest.yml/badge.svg)](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/unittest.yml)
 
 A production-ready MLOps pipeline demonstrating end-to-end machine learning workflow automation using GitHub Actions, MLflow, FastAPI, and Streamlit for California housing price prediction.
 
@@ -155,7 +157,9 @@ This project significantly extends the original GitHub Actions lab with the foll
 MLOPS_Assignment5_Github-Lab2/
 ├── .github/
 │   └── workflows/
-│       └── model_pipeline.yml          # GitHub Actions workflow
+│       ├── model_pipeline.yml          # GitHub Actions workflow for training
+│       └── pytest.yml                   # GitHub Actions workflow for pytest testing
+│       └── unittest.yml                   # GitHub Actions workflow for unittest testing
 │
 ├── src/
 │   ├── __init__.py
@@ -190,6 +194,15 @@ MLOPS_Assignment5_Github-Lab2/
 │
 ├── dashboard/
 │   └── app.py                          # Streamlit dashboard
+│
+│── htmlcov/
+│
+├── test/                               # Test suite
+│   ├── __init__.py
+│   ├── test_data_loader.py             # Data loading tests
+│   ├── unittest_data_loader.py         
+│   ├── test_preprocessing.py           # Preprocessing tests
+│   └── test_api.py                     # API endpoint tests
 │
 ├── screenshots/                        # Documentation screenshots
 │
@@ -582,6 +595,13 @@ mlflow ui --backend-store-uri ./mlruns --port 5000
 ### Streamlit Dashboard
 ![Streamlit Dashboard](screenshots/s1.png)
 ![Streamlit Dashboard](screenshots/s2.png)
+
+### Pytest
+![Pytest](screenshots/p1.png)
+
+### Coverage
+![Coverage Report](screenshots/c1.png)
+![Coverage Report](screenshots/c2.png)
 ---
 
 ## Deployment
@@ -638,6 +658,43 @@ curl -X POST "http://localhost:8000/predict" \
     "Longitude": -118.25
   }'
 ```
+**Running Tests Locally**
+
+# Install test dependencies
+pip install pytest pytest-cov
+
+# === pytest Tests ===
+
+# Run all pytest tests
+pytest test/ -v
+
+# Run with coverage report
+pytest test/ --cov=src --cov-report=html
+
+# Run specific pytest test file
+pytest test/test_data_loader.py -v
+
+# Run with detailed output
+pytest test/ -v --tb=short
+
+# === unittest Tests ===
+
+# Run all unittest tests
+python -m unittest discover test/ -v -p "unittest_*.py"
+
+# Run specific unittest file
+python -m unittest test.unittest_data_loader -v
+
+# Run unittest directly
+python test/unittest_data_loader.py
+
+# === Run Both Frameworks ===
+
+# Run pytest tests
+pytest test/test_*.py -v
+
+# Then run unittest tests
+python -m unittest discover test/ -v -p "unittest_*.py"
 
 ---
 
@@ -646,3 +703,5 @@ curl -X POST "http://localhost:8000/predict" \
 - Repository: [MLOPS_Assignment5_Github-Lab2](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2)
 
 ---
+
+
