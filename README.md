@@ -1,101 +1,691 @@
-# Using GitHub Actions for Model Training and Versioning
+# California Housing Price Prediction - Complete MLOps Pipeline
 
-This repository demonstrates how to use GitHub Actions to automate the process of training a machine learning model, storing the model, and versioning it. This allows you to easily update and improve your model in a collaborative environment.
+[![Housing Price Model Pipeline](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/model_pipeline.yml/badge.svg)](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/model_pipeline.yml)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Watch the tutorial video for this lab at [Github action Lab2](https://youtu.be/cj5sXIMZUjQ)
+A production-ready MLOps pipeline demonstrating end-to-end machine learning workflow automation using GitHub Actions, MLflow, FastAPI, and Streamlit for California housing price prediction.
 
+---
 
-## Prerequisites
+## Project Overview
 
-- [GitHub](https://github.com) account
-- Basic knowledge of Python and machine learning
-- Git command-line tool (optional)
+This project showcases a **complete MLOps pipeline** for predicting California housing prices. Unlike traditional ML projects, this implementation emphasizes:
+
+- **Automated Training**: GitHub Actions triggers model training on every push
+- **Experiment Tracking**: MLflow logs all experiments, parameters, and metrics
+- **Model Serving**: FastAPI provides REST endpoints for predictions
+- **Interactive Dashboard**: Streamlit enables real-time predictions and visualization
+- **Version Control**: Every model is versioned with timestamps
+- **CI/CD Integration**: Full automation from training to deployment
+
+### Dataset
+
+**California Housing Dataset** (from scikit-learn)
+- **Source**: 1990 California census data
+- **Samples**: 20,640 observations
+- **Features**: 8 numerical features
+  - `MedInc`: Median income in block group
+  - `HouseAge`: Median house age in block group
+  - `AveRooms`: Average number of rooms per household
+  - `AveBedrms`: Average number of bedrooms per household
+  - `Population`: Block group population
+  - `AveOccup`: Average number of household members
+  - `Latitude`: Block group latitude
+  - `Longitude`: Block group longitude
+- **Target**: Median house value (in $100,000s)
+
+---
+
+## What's New in This Implementation
+
+This project significantly extends the original GitHub Actions lab with the following enhancements:
+
+### 1. **Real-World Dataset** 
+- **Original**: Synthetic data generated using `make_classification`
+- **New**: Real California Housing dataset with actual economic and geographic features
+- **Impact**: More meaningful predictions and realistic model evaluation
+
+### 2. **Advanced Model Architecture** 
+- **Original**: Random Forest Classifier
+- **New**: Gradient Boosting Regressor with hyperparameter tuning
+- **Additions**:
+  - Feature engineering (3 new engineered features)
+  - Standard scaling for numerical features
+  - Outlier detection and handling
+  - Model versioning with timestamps
+
+### 3. **MLflow Integration** 
+- **New Addition**: Complete experiment tracking system
+- **Features**:
+  - Automatic logging of parameters, metrics, and artifacts
+  - Model registry with versioning
+  - Experiment comparison capabilities
+  - Web UI for visualization (accessible at `localhost:5000`)
+- **Metrics Tracked**: RMSE, MAE, R², MAPE
+
+### 4. **FastAPI Model Serving** 
+- **New Addition**: Production-ready REST API
+- **Endpoints**:
+  - `POST /predict`: Single prediction
+  - `POST /batch_predict`: Batch predictions
+  - `GET /model_info`: Model metadata
+  - `GET /health`: Health check
+  - `POST /reload_model`: Reload latest model
+- **Features**:
+  - Automatic API documentation (Swagger UI)
+  - Input validation with Pydantic
+  - Error handling and logging
+
+### 5. **Interactive Streamlit Dashboard** 
+- **New Addition**: User-friendly web interface
+- **Pages**:
+  - **Overview**: Model performance metrics and visualizations
+  - **Live Prediction**: Interactive form for real-time predictions
+  - **Model Comparison**: Compare different model versions
+  - **About**: Project documentation
+- **Visualizations**:
+  - Performance metrics over time
+  - Actual vs Predicted plots
+  - Residual analysis
+  - Feature importance charts
+
+### 6. **Comprehensive Evaluation** 
+- **Original**: F1 Score only
+- **New**: Multiple regression metrics
+  - RMSE (Root Mean Squared Error)
+  - MAE (Mean Absolute Error)
+  - R² Score (Coefficient of Determination)
+  - MAPE (Mean Absolute Percentage Error)
+- **Visualizations**:
+  - Evaluation plots with 4 subplots
+  - Feature importance visualization
+  - Residual distribution analysis
+
+### 7. **Enhanced GitHub Actions Workflow** ⚙️
+- **Improvements**:
+  - Detailed step-by-step logging
+  - Artifact upload (models, metrics, plots)
+  - Performance summary in workflow
+  - Better error handling
+  - Caching for faster builds
+  - Retention policy for artifacts (30 days)
+
+### 8. **Data Preprocessing Pipeline** 🔧
+- **New Addition**: Modular preprocessing system
+- **Components**:
+  - Data loader module
+  - Feature engineering module
+  - Scaling and normalization
+  - Train/test split with stratification
+  - Data validation
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     GitHub Actions                          │
+│  (Automated Training on Push)                               │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  Data Pipeline                              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────┐             │
+│  │ Load Data│─▶│Preprocess│─▶│Feature Eng.  │             │
+│  └──────────┘  └──────────┘  └──────────────┘             │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Model Training & Tracking                       │
+│  ┌──────────────┐  ┌──────────┐  ┌───────────┐            │
+│  │ Gradient     │─▶│  MLflow  │─▶│ Versioning│            │
+│  │ Boosting     │  │ Tracking │  │           │            │
+│  └──────────────┘  └──────────┘  └───────────┘            │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   Evaluation                                 │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────┐             │
+│  │ Metrics  │─▶│  Plots   │─▶│   Storage    │             │
+│  │Calculation│  │Generation│  │              │             │
+│  └──────────┘  └──────────┘  └──────────────┘             │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+          ┌──────────┴──────────┐
+          ▼                     ▼
+┌─────────────────┐   ┌──────────────────┐
+│    FastAPI      │   │    Streamlit     │
+│  Model Serving  │   │    Dashboard     │
+│  (Port 8000)    │   │   (Port 8501)    │
+└─────────────────┘   └──────────────────┘
+```
+
+---
+
+## Tech Stack
+
+### Machine Learning
+- **scikit-learn**: Model training and preprocessing
+- **pandas**: Data manipulation
+- **numpy**: Numerical computations
+
+### MLOps Tools
+- **MLflow**: Experiment tracking and model registry
+- **GitHub Actions**: CI/CD automation
+
+### API & Deployment
+- **FastAPI**: REST API framework
+- **Uvicorn**: ASGI server
+- **Pydantic**: Data validation
+
+### Visualization
+- **Streamlit**: Interactive dashboard
+- **Plotly**: Interactive charts
+- **Matplotlib & Seaborn**: Statistical visualizations
+
+### Development
+- **Python 3.9**: Programming language
+- **Git**: Version control
+- **pytest**: Testing framework
+
+---
+
+## Project Structure
+
+```
+MLOPS_Assignment5_Github-Lab2/
+├── .github/
+│   └── workflows/
+│       └── model_pipeline.yml          # GitHub Actions workflow
+│
+├── src/
+│   ├── __init__.py
+│   ├── data_loader.py                  # Data loading utilities
+│   ├── preprocessing.py                # Feature engineering & scaling
+│   ├── train_model.py                  # Model training script
+│   ├── evaluate_model.py               # Model evaluation script
+│   ├── model_utilis.py                 # Helper functions
+│   │
+│   ├── data/                           # Processed data
+│   │   ├── X_train.pkl
+│   │   ├── X_test.pkl
+│   │   ├── y_train.pkl
+│   │   └── y_test.pkl
+│   │
+│   ├── models/                         # Trained models
+│   │   ├── model_{timestamp}_gradient_boosting.joblib
+│   │   ├── preprocessor_{timestamp}.pkl
+│   │   └── feature_info_{timestamp}.json
+│   │
+│   ├── metrics/                        # Evaluation metrics
+│   │   └── {timestamp}_metrics.json
+│   │
+│   └── plots/                          # Visualizations
+│       ├── evaluation_{timestamp}_gradient_boosting.png
+│       └── feature_importance_{timestamp}_gradient_boosting.png
+│
+├── api/
+│   ├── __init__.py
+│   ├── main.py                         # FastAPI application
+│   └── schemas.py                      # Pydantic models
+│
+├── dashboard/
+│   └── app.py                          # Streamlit dashboard
+│
+├── mlruns/                             # MLflow tracking directory
+│
+├── requirements.txt                    # Python dependencies
+├── .gitignore                          # Git ignore rules
+└── README.md                           # This file
+```
+
+---
 
 ## Getting Started
 
-1. **Fork this Repository**: Click the "Fork" button at the top right of this [repository](https://github.com/raminmohammadi/MLOps/) to create your own copy.
-3. **Clone Your Repository**:
+### Prerequisites
+
+- Python 3.9 or higher
+- Git
+- GitHub account
+- Virtual environment (recommended)
+
+### Installation
+
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/your-forked-repo.git
-   cd your-forked-repo
-
+   git clone https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2.git
+   cd MLOPS_Assignment5_Github-Lab2
    ```
-4. GitHub account
-5. Basic knowledge of Python and machine learning
-6. Git command-line tool (optional)
 
-# Running the Workflow
-## Customize Model Training
-1. Modify the `train_model.py` script in the `src/` directory according to your dataset and model requirements. This script generates synthetic data for demonstration purposes.
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   
+   # Activate on macOS/Linux
+   source venv/bin/activate
+   
+   # Activate on Windows
+   venv\Scripts\activate
+   ```
 
-## Push Your Changes:
-1. Commit your changes and push them to your forked repository.
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## GitHub Actions Workflow:
-1. Once you push changes to the main branch, the GitHub Actions workflow will be triggered automatically.
+### Local Usage
 
-## View Workflow Progress:
-1. You can track the progress of the workflow by going to the "Actions" tab in your GitHub repository.
+#### 1. Train the Model
 
-## Retrieve the Trained Model:
-1. After the workflow completes successfully, the trained model will be stored in the `models/` directory.
+```bash
+cd src
+python train_model.py --timestamp $(date '+%Y%m%d%H%M%S') --model_type gradient_boosting
+```
 
-# Model Evaluation
-The model evaluation is performed automatically within the GitHub Actions workflow. The evaluation results (e.g., F1 Score) are stored in the `metrics/` directory.
+**Parameters:**
+- `--timestamp`: Unique identifier for model version
+- `--model_type`: Type of model (gradient_boosting or ridge)
+- `--n_estimators`: Number of boosting stages (default: 100)
+- `--learning_rate`: Learning rate (default: 0.1)
+- `--max_depth`: Maximum depth of trees (default: 3)
 
-# Versioning the Model
-Each time you run the workflow, a new version of the model is created and stored. You can access and use these models for your projects.
+#### 2. Evaluate the Model
 
-# GitHub Actions Workflow Details
-The workflow consists of the following steps:
+```bash
+python evaluate_model.py --timestamp <your_timestamp> --model_type gradient_boosting
+```
 
-- Generate and Store Timestamp: A timestamp is generated and stored in a file for versioning.
-- Model Training: The `train_model.py` script is executed, which trains a random forest classifier on synthetic data and stores the model in the `models/` directory.
-- Model Evaluation: The `evaluate_model.py` script is executed to evaluate the model's F1 Score on synthetic data, and the results are stored in the `metrics/` directory.
-- Store and Version the New Model: The trained model is moved to the `models/` directory with a timestamp-based version.
-- Commit and Push Changes: The metrics and updated model are committed to the repository, allowing you to track changes.
+This generates:
+- Performance metrics (JSON)
+- Evaluation plots (PNG)
+- Feature importance chart (PNG)
 
-# Model Calibration Workflow
-## Overview
-The `model_calibration_on_push.yml` workflow is a part of the automation process for machine learning model calibration within this repository. It is essential for ensuring that the model's predictions are accurate and well-calibrated, a critical step in machine learning applications.
+#### 3. Start MLflow UI
 
-## Workflow Purpose
-This workflow's primary purpose is to calibrate a trained machine learning model after each push to the main branch of the repository. Calibration is a crucial step to align model predictions with reality, particularly when dealing with classification tasks. In simple terms, calibration ensures that a model's predicted probabilities match the actual likelihood of an event happening.
+```bash
+mlflow ui --backend-store-uri ./mlruns --port 5000
+```
+Open browser: http://localhost:5000
 
-## Workflow Execution
-Let's break down how this workflow operates step by step:
+#### 4. Launch FastAPI Server
 
-### Step 1: Trigger on Push to Main Branch
-- This workflow is automatically initiated when changes are pushed to the main branch of the repository. It ensures that the model remains calibrated and up-to-date with the latest data and adjustments.
+```bash
+uvicorn api.main:app --reload --port 8000
+```
 
-### Step 2: Prepare Environment
-- The workflow begins by setting up a Python environment and installing the necessary Python libraries and dependencies. This is crucial to ensure that the model calibration process can be executed without any issues.
+Open browser: http://localhost:8000/docs
 
-### Step 3: Load Trained Model
-- The trained machine learning model, which has been previously saved in the `models/` directory, is loaded into memory. This model should be the most recent version, as trained by the `train_model.py` script.
 
-### Step 4: Calibrate Model Probabilities
-- In this step, the model's predicted probabilities are calibrated. Calibration methods, such as Platt scaling or isotonic regression, are applied. These methods adjust the model's predicted probabilities to match the actual likelihood of an event occurring. This calibration step is critical for reliable decision-making based on the model's predictions.
+#### 5. Run Streamlit Dashboard
 
-### Step 5: Save Calibrated Model
-- The calibrated model is saved back to the `models/` directory. It is given a distinct identifier to differentiate it from the original, uncalibrated models. This ensures that both the original model and the calibrated model are available for comparison and use.
+```bash
+streamlit run dashboard/app.py
+```
 
-### Step 6: Commit and Push Changes
-- This final step involves committing the calibrated model and any other relevant files to the repository. It is essential to keep track of the changes made during the calibration process and to store the calibrated model in the repository for future applications and reference.
+Open browser: http://localhost:8501
 
-# Customization
-The `model_calibration_on_push.yml` workflow can be customized to align with your specific project requirements. You can modify calibration methods, the directory where the calibrated model is saved, or any other aspects of the calibration process to meet your project's unique needs.
+---
 
-# Integration with Model Training
-This workflow is designed to work seamlessly with the main model training workflow, `model_retraining_on_push.yml`. In the initial workflow, the model is trained, and in this workflow, the calibrated model is generated. The calibrated model can then be used in applications where precise, well-calibrated probabilities are essential.
+## Model Performance
 
-# License
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Latest Model Metrics
 
-# Acknowledgments
-- This project uses GitHub Actions for continuous integration and deployment.
-- Model training and evaluation are powered by Python and scikit-learn.
+| Metric | Training | Test | Description |
+|--------|----------|------|-------------|
+| **RMSE** | 0.4975 | 0.5407 | Root Mean Squared Error (lower is better) |
+| **MAE** | 0.3490 | 0.3697 | Mean Absolute Error (lower is better) |
+| **R² Score** | 0.7995 | 0.7769 | Coefficient of Determination (higher is better) |
+| **MAPE** | 19.73% | 21.36% | Mean Absolute Percentage Error |
 
-# Questions or Issues
-If you have any questions or encounter issues while using this GitHub Actions workflow, please open an issue in the Issues section of your repository.
 
+---
+
+## Dashboard Features
+
+### 1. Overview Page 
+
+**Key Metrics Display:**
+- RMSE, MAE, R², MAPE in metric cards
+- Delta indicators showing improvement from previous version
+- Interactive line charts showing metrics over time
+
+**Visualizations:**
+- Model performance trends
+- Evaluation plots (Actual vs Predicted, Residuals)
+- Feature importance charts
+
+### 2. Live Prediction Page 
+
+**Interactive Input Form:**
+- 8 input fields for housing features
+- Sliders and number inputs with validation
+- Real-time prediction on button click
+
+**Results Display:**
+- Predicted price in $100k units
+- Predicted price in USD format
+- Model confidence score
+- Celebration animation on successful prediction
+
+### 3. Model Comparison Page 
+
+**Comparison Features:**
+- Best performing model identification
+- Latest model metrics
+- Detailed comparison table
+- Color-coded performance indicators
+
+**Summary Statistics:**
+- Best R² score across all versions
+- Model version history
+- Performance trends
+
+### 4. About Page 
+
+**Documentation:**
+- Project overview
+- Technology stack
+- Dataset information
+- Model details
+- Usage instructions
+
+---
+
+## API Documentation
+
+### Base URL
+```
+http://localhost:8000
+```
+
+### Endpoints
+
+#### 1. Health Check
+```http
+GET /health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "model_info": {
+    "model_version": "...",
+    "model_type": "gradient_boosting",
+    "timestamp": "20251116..."
+  }
+}
+```
+
+#### 2. Model Information
+```http
+GET /model_info
+```
+
+**Response:**
+```json
+{
+  "model_version": "src/models/model_..._gradient_boosting.joblib",
+  "model_type": "gradient_boosting",
+  "timestamp": "20251116...",
+  "n_features": 11,
+  "available_models": [...]
+}
+```
+
+#### 3. Single Prediction
+```http
+POST /predict
+```
+
+**Request Body:**
+```json
+{
+  "MedInc": 3.5,
+  "HouseAge": 25.0,
+  "AveRooms": 5.5,
+  "AveBedrms": 1.2,
+  "Population": 1200.0,
+  "AveOccup": 3.0,
+  "Latitude": 34.05,
+  "Longitude": -118.25
+}
+```
+
+**Response:**
+```json
+{
+  "predicted_price": 2.15,
+  "predicted_price_usd": 215000.0,
+  "model_version": "src/models/model_..._gradient_boosting.joblib",
+  "model_type": "gradient_boosting"
+}
+```
+
+#### 4. Batch Prediction
+```http
+POST /batch_predict
+```
+
+**Request Body:**
+```json
+{
+  "features": [
+    {
+      "MedInc": 3.5,
+      "HouseAge": 25.0,
+      ...
+    },
+    {
+      "MedInc": 4.2,
+      "HouseAge": 30.0,
+      ...
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "predictions": [
+    {
+      "predicted_price": 2.15,
+      "predicted_price_usd": 215000.0,
+      ...
+    },
+    ...
+  ],
+  "count": 2
+}
+```
+
+#### 5. Reload Model
+```http
+POST /reload_model
+```
+
+Reloads the latest trained model without restarting the server.
+
+---
+
+## GitHub Actions Workflow
+
+### Workflow Trigger
+
+The workflow automatically triggers on:
+- Push to `main` branch
+- Manual trigger via "Run workflow" button
+
+### Workflow Steps
+
+1. **Setup Environment**
+   - Checkout code
+   - Setup Python 3.9
+   - Cache dependencies
+   - Install requirements
+
+2. **Generate Timestamp**
+   - Create unique version identifier
+   - Store for model versioning
+
+3. **Train Model**
+   - Load California Housing dataset
+   - Preprocess and engineer features
+   - Train Gradient Boosting model
+   - Log to MLflow
+
+4. **Evaluate Model**
+   - Calculate metrics (RMSE, MAE, R², MAPE)
+   - Generate evaluation plots
+   - Create feature importance chart
+
+5. **Store Artifacts**
+   - Save model files
+   - Save preprocessor
+   - Save metrics JSON
+   - Save visualization plots
+
+6. **Commit Results**
+   - Configure git
+   - Add model files, metrics, plots
+   - Commit with detailed message
+   - Push back to repository
+
+7. **Upload Artifacts**
+   - Create downloadable artifact package
+   - Set 30-day retention period
+   - Include models, metrics, plots
+
+8. **Generate Summary**
+   - Display performance metrics
+   - Show model details
+   - List generated files
+
+### Workflow Configuration
+
+Location: `.github/workflows/model_pipeline.yml`
+
+```yaml
+name: Housing Price Model Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  train-and-deploy:
+    runs-on: ubuntu-latest
+    # ... steps ...
+```
+
+### Viewing Workflow Results
+
+1. Go to repository **Actions** tab
+2. Click on latest workflow run
+3. View step-by-step execution logs
+4. Download artifacts
+5. Check workflow summary for metrics
+
+---
+
+## MLflow Experiment Tracking
+
+### Starting MLflow
+
+```bash
+mlflow ui --backend-store-uri ./mlruns --port 5000
+```
+---
+
+## Screenshots
+
+### GitHub Actions Workflow
+![Workflow Success](screenshots/g1.png)
+![Workflow Success](screenshots/g2.png)
+![Workflow Success](screenshots/g3.png)
+![Workflow Success](screenshots/g4.png)
+![Workflow Success](screenshots/g5.png)
+
+### MLflow Dashboard
+![MLFlow UI](screenshots/ml1.png)
+
+### FastAPI Documentation
+![FastAPI Docs](screenshots/f1.png)
+
+### Streamlit Dashboard
+![Streamlit Dashboard](screenshots/s1.png)
+![Streamlit Dashboard](screenshots/s2.png)
+---
+
+## Deployment
+
+### Running All Services
+
+```bash
+# Terminal 1: MLflow UI
+mlflow ui --backend-store-uri ./mlruns --port 5000
+
+# Terminal 2: FastAPI
+uvicorn api.main:app --reload --port 8000
+
+# Terminal 3: Streamlit Dashboard
+streamlit run dashboard/app.py
+```
+
+### Access Points
+
+- **MLflow UI**: http://localhost:5000
+- **FastAPI Docs**: http://localhost:8000/docs
+- **Streamlit Dashboard**: http://localhost:8501
+
+---
+
+## Testing
+
+### Run Tests
+
+```bash
+pytest test/
+```
+
+### Manual Testing
+
+**Test Model Training:**
+```bash
+cd src
+python train_model.py --timestamp test_$(date '+%Y%m%d%H%M%S') --model_type gradient_boosting
+```
+
+**Test API:**
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "MedInc": 3.5,
+    "HouseAge": 25.0,
+    "AveRooms": 5.5,
+    "AveBedrms": 1.2,
+    "Population": 1200.0,
+    "AveOccup": 3.0,
+    "Latitude": 34.05,
+    "Longitude": -118.25
+  }'
+```
+
+---
+
+**Novia D'Silva**
+- GitHub: [@Novia-Dsilva](https://github.com/Novia-Dsilva)
+- Repository: [MLOPS_Assignment5_Github-Lab2](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2)
+
+---
