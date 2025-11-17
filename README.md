@@ -1,8 +1,6 @@
-# California Housing Price Prediction - Complete MLOps Pipeline
+# Using GitHub Actions for Model Training and Versioning for California Housing Price Prediction
 
 [![Housing Price Model Pipeline](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/model_pipeline.yml/badge.svg)](https://github.com/Novia-Dsilva/MLOPS_Assignment5_Github-Lab2/actions/workflows/model_pipeline.yml)
-[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A production-ready MLOps pipeline demonstrating end-to-end machine learning workflow automation using GitHub Actions, MLflow, FastAPI, and Streamlit for California housing price prediction.
 
@@ -102,7 +100,7 @@ This project significantly extends the original GitHub Actions lab with the foll
   - Feature importance visualization
   - Residual distribution analysis
 
-### 7. **Enhanced GitHub Actions Workflow** ⚙️
+### 7. **Enhanced GitHub Actions Workflow** 
 - **Improvements**:
   - Detailed step-by-step logging
   - Artifact upload (models, metrics, plots)
@@ -111,7 +109,7 @@ This project significantly extends the original GitHub Actions lab with the foll
   - Caching for faster builds
   - Retention policy for artifacts (30 days)
 
-### 8. **Data Preprocessing Pipeline** 🔧
+### 8. **Data Preprocessing Pipeline** 
 - **New Addition**: Modular preprocessing system
 - **Components**:
   - Data loader module
@@ -119,51 +117,6 @@ This project significantly extends the original GitHub Actions lab with the foll
   - Scaling and normalization
   - Train/test split with stratification
   - Data validation
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     GitHub Actions                          │
-│  (Automated Training on Push)                               │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  Data Pipeline                              │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────┐             │
-│  │ Load Data│─▶│Preprocess│─▶│Feature Eng.  │             │
-│  └──────────┘  └──────────┘  └──────────────┘             │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│              Model Training & Tracking                       │
-│  ┌──────────────┐  ┌──────────┐  ┌───────────┐            │
-│  │ Gradient     │─▶│  MLflow  │─▶│ Versioning│            │
-│  │ Boosting     │  │ Tracking │  │           │            │
-│  └──────────────┘  └──────────┘  └───────────┘            │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   Evaluation                                 │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────┐             │
-│  │ Metrics  │─▶│  Plots   │─▶│   Storage    │             │
-│  │Calculation│  │Generation│  │              │             │
-│  └──────────┘  └──────────┘  └──────────────┘             │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-          ┌──────────┴──────────┐
-          ▼                     ▼
-┌─────────────────┐   ┌──────────────────┐
-│    FastAPI      │   │    Streamlit     │
-│  Model Serving  │   │    Dashboard     │
-│  (Port 8000)    │   │   (Port 8501)    │
-└─────────────────┘   └──────────────────┘
-```
 
 ---
 
@@ -196,6 +149,7 @@ This project significantly extends the original GitHub Actions lab with the foll
 ---
 
 ## Project Structure
+
 
 ```
 MLOPS_Assignment5_Github-Lab2/
@@ -237,11 +191,14 @@ MLOPS_Assignment5_Github-Lab2/
 ├── dashboard/
 │   └── app.py                          # Streamlit dashboard
 │
+├── screenshots/                        # Documentation screenshots
+│
 ├── mlruns/                             # MLflow tracking directory
 │
 ├── requirements.txt                    # Python dependencies
 ├── .gitignore                          # Git ignore rules
 └── README.md                           # This file
+
 ```
 
 ---
