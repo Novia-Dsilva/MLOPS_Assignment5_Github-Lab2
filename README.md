@@ -658,44 +658,36 @@ curl -X POST "http://localhost:8000/predict" \
     "Longitude": -118.25
   }'
 ```
-**Running Tests Locally**
 
-# Install test dependencies
+### Running Tests Locally
+
+**Install test dependencies**
 pip install pytest pytest-cov
 
-# === pytest Tests ===
+**pytest Tests**
 
-# Run all pytest tests
+**Run all pytest tests**
 pytest test/ -v
 
-# Run with coverage report
+**Run with coverage report**
 pytest test/ --cov=src --cov-report=html
 
-# Run specific pytest test file
+**Run specific pytest test file**
 pytest test/test_data_loader.py -v
 
-# Run with detailed output
+**Run with detailed output**
 pytest test/ -v --tb=short
 
-# === unittest Tests ===
+**unittest Tests**
 
-# Run all unittest tests
+**Run all unittest tests**
 python -m unittest discover test/ -v -p "unittest_*.py"
 
-# Run specific unittest file
+**Run specific unittest file**
 python -m unittest test.unittest_data_loader -v
 
-# Run unittest directly
+**Run unittest directly**
 python test/unittest_data_loader.py
-
-# === Run Both Frameworks ===
-
-# Run pytest tests
-pytest test/test_*.py -v
-
-# Then run unittest tests
-python -m unittest discover test/ -v -p "unittest_*.py"
-
 ---
 
 **Novia D'Silva**
