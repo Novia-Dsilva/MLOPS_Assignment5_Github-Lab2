@@ -661,33 +661,45 @@ curl -X POST "http://localhost:8000/predict" \
 
 ### Running Tests Locally
 
-**Install test dependencies**
+### Install test dependencies
+```bash
 pip install pytest pytest-cov
+```
 
-**pytest Tests**
-
-**Run all pytest tests**
+### Run all pytest tests
+```bash
 pytest test/ -v
+```
 
-**Run with coverage report**
+### Run with coverage report
+```bash
 pytest test/ --cov=src --cov-report=html
+```
 
-**Run specific pytest test file**
+### Run specific pytest test file
+```bash
 pytest test/test_data_loader.py -v
+```
 
-**Run with detailed output**
+### Run with detailed output
+```bash
 pytest test/ -v --tb=short
+```
 
-**unittest Tests**
-
-**Run all unittest tests**
+### Run all unittest tests
+```bash
 python -m unittest discover test/ -v -p "unittest_*.py"
+```
 
-**Run specific unittest file**
+### Run specific unittest file
+```bash
 python -m unittest test.unittest_data_loader -v
+```
 
-**Run unittest directly**
+### Run unittest directly
+```bash
 python test/unittest_data_loader.py
+```
 ---
 
 **Novia D'Silva**
