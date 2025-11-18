@@ -102,7 +102,7 @@ jobs:
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "🔄 Scheduled: Retrain Housing Price model ${{ env.TIMESTAMP }}
+          git commit -m "Scheduled: Retrain Housing Price model ${{ env.TIMESTAMP }}
           
           Scheduled retraining executed at $(date)
           Model: Gradient Boosting Regressor
