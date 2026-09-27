@@ -1,0 +1,16 @@
+{
+    "feature_names": [
+        "MedInc",
+        "HouseAge",
+        "AveRooms",
+        "AveBedrms",
+        "Population",
+        "AveOccup",
+        "Latitude",
+        "Longitude",
+        "RoomsPerHousehold",
+        "BedroomsRatio",
+        "PopulationPerHousehold"
+    ],
+    "n_features": 11
+}
